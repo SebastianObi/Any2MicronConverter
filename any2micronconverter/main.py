@@ -39,7 +39,7 @@ import shutil
 
 if sys.platform.startswith("win"):
     #### Version ####
-    from _version import __version__, __version_variant__, __copyright_short__, __title__, __description__, __config__
+    from _version import __version__, __version_variant__, __copyright_short__, __title__, __description__, __package_name__, __config__
 
     #### Converter ####
     from converter import Converter
@@ -57,7 +57,7 @@ if sys.platform.startswith("win"):
     from dokuwiki.z_cleanup import *
 else:
     #### Version ####
-    from ._version import __version__, __version_variant__, __copyright_short__, __title__, __description__, __config__
+    from ._version import __version__, __version_variant__, __copyright_short__, __title__, __description__, __package_name__, __config__
 
     #### Converter ####
     from .converter import Converter
@@ -79,7 +79,7 @@ else:
 # Globals
 
 
-PATH = os.path.expanduser("~") + "/." + os.path.splitext(os.path.basename(__file__))[0]
+PATH = os.path.expanduser("~") + "/." + __package_name__
 
 
 ##############################################################################################################

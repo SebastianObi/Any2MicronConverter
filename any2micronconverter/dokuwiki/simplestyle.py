@@ -42,15 +42,6 @@ class SimpleStyleBetweenTags(ABC):
 
 
 @Converter.register
-class InlineHtml:
-    def __init__(self):
-        self.mode = os.path.basename((os.path.dirname(__file__)))
-
-    def convert(self, text, config={}):
-        return text.replace("<html>", "").replace("</html>", "")
-
-
-@Converter.register
 class LineBreak(SimpleStyleBetweenTags):
     def __init__(self):
         super().__init__("\n", "\\\\ ?")
@@ -96,3 +87,31 @@ class Superscript(SimpleStyleBetweenTags):
 class InlineCode(SimpleStyleBetweenTags):
     def __init__(self):
         super().__init__("", "''", "''")
+
+
+@Converter.register
+class InlineHtml:
+    def __init__(self):
+        self.mode = os.path.basename((os.path.dirname(__file__)))
+
+    def convert(self, text, config={}):
+        return text.replace("<html>", "").replace("</html>", "")
+
+
+@Converter.register
+class Color:
+    pattern = compile("(<color\s+#([a-fA-F0-9]{6})>([^<]+)<\/color>)")
+
+    def __init__(self):
+        self.mode = os.path.basename((os.path.dirname(__file__)))
+
+    def convert(self, text, config={}):
+        result = text
+        for regex_color in Color.pattern.findall(text):
+            orig_color = regex_color[0]
+            color = regex_color[1]
+            if len(color) == 6:
+                color = str(color[1:2])+str(color[2:3])+str(color[4:5])
+            new_color = "`F" + color + regex_color[2] + "`"
+            result = result.replace(orig_color, new_color)
+        return result
