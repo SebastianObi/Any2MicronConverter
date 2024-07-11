@@ -79,7 +79,7 @@ else:
 # Globals
 
 
-PATH = os.path.expanduser("~") + "/." + __package_name__
+PATH = os.path.expanduser("~")+"/.config/"+__package_name__
 
 
 ##############################################################################################################
